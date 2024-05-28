@@ -1,0 +1,182 @@
+import pygame
+
+from src import BLACK, CELL_SIZE, GRID_HEIGHT, GRID_WIDTH, HEIGHT, SCREEN, TEXT_FONTS, TITLE_FONTS, WHITE, WIDTH
+from src.classes.map_position import MapPosition
+from src.classes.levels import Levels
+from src.helpers.main_menu import MainMenu
+from src.classes.menu_state_enum import MenuStateEnum
+from src.helpers.screen_helper import ScreenHelper
+
+
+class SnakeGame:
+    def __init__(self, screen: pygame.Surface) -> None:
+        self.screen = screen
+        self.main_menu = MainMenu(self.screen)
+        self.celebration_group = pygame.sprite.Group()
+        self.levels = Levels().get_levels()
+        # self.levels = [level_1, level_2]
+        self.current_level = 0
+        self.start = True
+        self.pause = False
+        self.waiting_for_click = False
+        self.done = False
+        self.grid_dimensions = (GRID_WIDTH, GRID_HEIGHT)
+
+    def get_waiting_for_click(self) -> bool:
+        return self.waiting_for_click
+
+    def set_waiting_for_click(self, waiting: bool) -> None:
+        self.waiting_for_click = waiting
+
+    def is_paused(self) -> bool:
+        """
+        Check if the game is paused
+        :return True if game is paused else False
+        """
+        return self.pause
+
+    def get_current_level(self) -> int:
+        """
+        Get the current level of the game
+        :return the number of the level
+        """
+        return self.current_level
+
+    def set_current_level(self, level: int) -> None:
+        """
+        Set the current level of the game
+        :param level: integer level of game
+        """
+        self.current_level = level
+
+    def game_finished(self) -> None:
+        """
+        Finish the game by toggling done flag and wait for input
+        """
+        self.set_waiting_for_click(True)
+        self.done = True
+
+    def display_screen_after_level(self) -> None:
+        """
+        Display screen after finishing level
+        """
+        self.current_level += 1
+        self.game_finished() if self.current_level == len(self.levels) else self.start_level()
+
+    def start_level(self) -> None:
+        """
+        Start the new level and wait for click to play it
+        """
+        self.waiting_for_click = True
+        self.level = self.levels[self.current_level]
+
+
+    def handle_events(self) -> bool:
+        """
+        Handle events in pygame and checking its type
+        :return True if the game continues
+        """
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    self.level.snake.change_direction((0, -1))
+                elif event.key == pygame.K_DOWN:
+                    self.level.snake.change_direction((0, 1))
+                elif event.key == pygame.K_LEFT:
+                    self.level.snake.change_direction((-1, 0))
+                elif event.key == pygame.K_RIGHT:
+                    self.level.snake.change_direction((1, 0))
+                # check if P is pressed for pause
+                elif event.key == pygame.K_p:
+                    self.pause = not self.pause
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    return False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if self.waiting_for_click:
+                    if self.done:
+                        pygame.quit()
+                        quit()
+                    self.waiting_for_click = False
+            elif event.type == pygame.QUIT:
+                pygame.quit()
+                return False
+        return True
+    
+    def update(self) -> bool:
+        """
+        Update the sprites and the logic for playing game
+        :return True if playing game else False
+        """
+        if not self.get_waiting_for_click():
+            if self.is_paused():
+                ScreenHelper.display_text_on_screen(
+                    self.screen, TITLE_FONTS, "Press p to continue")
+            else:
+                if self.level.snake.move():
+                    if self.level.snake.body[0] == self.level.food.position:
+                        self.level.snake.grow()
+                        self.level.food.respawn()
+                    self.level.snake.draw()
+                    self.level.food.draw()
+                    if self.level.obstacles:
+                        for obstacle in self.level.obstacles:
+                            pygame.draw.rect(self.screen,
+                                             WHITE, 
+                                             (obstacle.position.x_pos * CELL_SIZE,
+                                              obstacle.position.y_pos * CELL_SIZE,
+                                              CELL_SIZE,
+                                              CELL_SIZE))
+                    # draw the level information on the bottom part of the screen
+                    level_text = f"  Level: {self.get_current_level() + 1}"
+                    ScreenHelper.display_text_on_screen(self.screen, TEXT_FONTS, level_text, top_left=True)
+                    consumed_text = f"Consumed: {self.level.snake.food_consumed}/{self.level.food_objective}"
+                    ScreenHelper.display_text_on_screen(self.screen, TEXT_FONTS, consumed_text, top_right=True)
+                else:
+                    return False
+
+                if self.level.snake.food_consumed == self.level.food_objective:
+                    self.display_screen_after_level()
+        else:
+            if self.current_level == 0:
+                message = "Welcome to PySnakey!"
+                # add the text below the first one
+                ScreenHelper.display_text_on_screen(self.screen,
+                                                    TITLE_FONTS,
+                                                    "Right click to start!",
+                                                    map_position=MapPosition(WIDTH // 2, HEIGHT // 2 + 50))
+
+            elif self.current_level == len(self.levels):
+                message = "Congrats you have finished the game!"
+            else:
+                message = "Right click to start the next level!"
+            ScreenHelper.display_text_on_screen(self.screen, TITLE_FONTS, message)
+        return True
+
+def main():
+    # Create a new SnakeGame instance for the main menu
+    snake_game = SnakeGame(SCREEN)
+    snake_game.start_level()
+
+    clock = pygame.time.Clock()
+    running = True
+
+    while running:
+        SCREEN.fill(BLACK)
+        # Handle events based on the current menu state
+        if snake_game.main_menu.menu_state != MenuStateEnum.START_GAME:
+            running = snake_game.main_menu.handle_events()
+            # Check if the game should start
+            if snake_game.main_menu.menu_state == MenuStateEnum.KEY_BINDINGS:
+                snake_game.main_menu.view_key_bindings()
+            elif snake_game.main_menu.menu_state == MenuStateEnum.MAIN_MENU:
+                snake_game.main_menu.display_menu()
+        else:
+            running = snake_game.handle_events() and snake_game.update()
+        pygame.display.flip()
+        clock.tick(10)
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
