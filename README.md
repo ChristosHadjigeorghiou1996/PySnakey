@@ -7,7 +7,7 @@ Traditional snake game written in pygame with Python 3.11.9
 1) Create a python environment: `python -m venv NAME_OF_VENV`.
 2) Activate the environment: `source NAME_OF_VENV\bin\activate` or `NAME_OF_VENV/Scripts/activate` depending on OS
 3) Install the required dependancies: `pip install -r requirements.txt`.
-4) Start the game: `python snake.py`
+4) Start the game: `python snake_game.py`
 5) Enjoy!
 
 ## Features
