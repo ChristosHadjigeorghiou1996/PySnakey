@@ -26,7 +26,7 @@ KEY_BINDINGS = {
 }
 
 # Menu Options
-MENU_OPTIONS = ["Start Game", "View Key Bindings", "Exit"]
+MENU_OPTIONS = ["High Score Mode", "Story Mode", "View Key Bindings", "Exit"]
 
 # Fonts
 TITLE_FONT_SIZE = 48
