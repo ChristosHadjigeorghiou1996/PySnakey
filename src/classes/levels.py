@@ -5,9 +5,7 @@ from src import GRID_HEIGHT, GRID_WIDTH
 from src.classes.food import Food
 from src.classes.level import Level
 from src.classes.map_position import MapPosition
-from src.classes.obstacle import Obstacle
 from src.classes.snake import Snake
-from src.classes.obstacle import Obstacle
 
 
 class Levels:

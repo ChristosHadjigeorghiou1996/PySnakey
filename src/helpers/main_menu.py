@@ -12,12 +12,6 @@ from src.helpers.screen_helper import ScreenHelper
 class MainMenu:
     def __init__(self, screen: Surface) -> None:
         self.screen = screen
-        self.menu_options_state = {
-            'main_menu' : 'Main menu',
-            'start_game': 'Start Game',
-            'view_key_bindings': 'View Key Bindings',
-            'exit': 'Exit'
-        }
         self.menu_options = MENU_OPTIONS
         self.selected_option = 0
         self.title_font = Font(None, TITLE_FONT_SIZE)
@@ -90,10 +84,12 @@ class MainMenu:
                     self.selected_option = (self.selected_option + 1) % len(self.menu_options)
                 elif event.key == K_RETURN:
                     if self.selected_option == 0:
-                        self.menu_state = MenuStateEnum.START_GAME
-                    elif self.selected_option == 1:
-                        self.menu_state = MenuStateEnum.KEY_BINDINGS
+                        self.menu_state = MenuStateEnum.HIGH_SCORE_MODE
+                    if self.selected_option == 1:
+                        self.menu_state = MenuStateEnum.STORY_MODE
                     elif self.selected_option == 2:
+                        self.menu_state = MenuStateEnum.KEY_BINDINGS
+                    elif self.selected_option == 3:
                         self.menu_state = MenuStateEnum.EXIT
                         quit()
                         exit()

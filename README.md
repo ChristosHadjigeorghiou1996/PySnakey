@@ -17,11 +17,14 @@ Traditional snake game written in pygame with Python 3.11.9
 <img src="src/assets/images/main menu.png" alt="Main menu screenshot" width="600">
 
 - Bottom section is left unreachable for the consumables per level and the level itself
+- Different game modes (Story mode and high-score)
+    - High score
 
-<img src="src/assets/images/first level with bottom row info being unreachable.png" alt="First level with unreachable info row screenshot" width="600">
-
-
-- Different game modes (Story mode and high-score) (developing)
+        <img src="src/assets/images/high_score_mode.png" alt="High score mode display" width="600">
+    
+    - Story mode
+        
+        <img src="src/assets/images/first level with bottom row info being unreachable.png" alt="First level with unreachable info row screenshot" width="600">
 
 ## Game modes
 - High score mode 
@@ -32,7 +35,7 @@ Traditional snake game written in pygame with Python 3.11.9
 - Story mode with levels
     * Each level has unique goals like number of food items to consume
     * The higher the level, the higher the difficulty (not yet developed)
-        * Food items have timer
         * Speed can increase (maybe add items to increase speed ?)
+        * Food items could have times 
         * Varying level dimensions (?)
         * Obstacles in higher levels (?)
