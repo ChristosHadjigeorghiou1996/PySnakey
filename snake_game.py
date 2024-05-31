@@ -124,7 +124,7 @@ class SnakeGame:
                     food = self.food
                     obstacles = None
                     food_objective = None
-                    level_text = "High score mode"
+                    level_text = "   High score mode"
                     consumed_text = f"Score: {snake.food_consumed * 10}"
                 else:
                     snake = self.level.snake
