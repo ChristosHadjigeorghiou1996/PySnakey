@@ -1,9 +1,11 @@
 from typing import Tuple
+import datetime
+import os
 
-from pygame import Surface
+from pygame import display, image, Surface
 from pygame.font import Font
 
-from src import HEIGHT, WHITE, WIDTH, STATUS_BAR_HEIGHT
+from src import LOGGER, HEIGHT, SCREENSHOTS_PATH, STATUS_BAR_HEIGHT, WHITE, WIDTH
 from src.classes.map_position import MapPosition
 
 
@@ -30,3 +32,17 @@ class ScreenHelper:
             else:
                 text_rect.center = (WIDTH // 2, HEIGHT // 2)
         screen.blit(text, text_rect)
+
+
+    @staticmethod
+    def take_screenshot() -> None:
+        """
+        Take screenshot of the entire screen and save it
+            with current datetime name at provided folder
+        """
+        # use datetime as filename
+        filename = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S.png")
+        filename_path = os.path.join(SCREENSHOTS_PATH, filename)
+        os.makedirs(SCREENSHOTS_PATH, exist_ok=True)
+        image.save(display.get_surface(), filename_path)
+        LOGGER.debug(f"Is file saved: {os.path.isfile(filename_path)}")
