@@ -1,5 +1,7 @@
 import pygame
 from pygame.font import Font
+import os
+import logging
 
 # Constants
 WIDTH = 640
@@ -36,7 +38,12 @@ TEXT_FONT_SIZE = 36
 pygame.init()
 
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+PARDIR_FOLDER = os.path.dirname(__file__)
+SCREENSHOTS_PATH = os.path.join(PARDIR_FOLDER, "assets", "screenshots")
 
+LOGGER = logging.getLogger("PySnakey")
+logging.basicConfig(level=logging.DEBUG)
+SCREENSHOT_TIMER_EVENT = pygame.USEREVENT + 1
 pygame.display.set_caption("Snake Game")
 
 TITLE_FONTS = Font(None, 48)

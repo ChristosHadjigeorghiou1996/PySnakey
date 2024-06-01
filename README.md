@@ -26,12 +26,20 @@ Traditional snake game written in pygame with Python 3.11.9
         
         <img src="src/assets/images/first level with bottom row info being unreachable.png" alt="First level with unreachable info row screenshot" width="600">
 
+- Screenshots when losing the game to see what happened and what to changed.
+    - Stored under parent directory of the script running, under src -> assets -> screenshots -> date_and_time.png
+    - Example image:
+
+        <img src="src/assets/screenshots/01_06_2024_14_41_29.png" alt="Screenshot when losing at high score mode" width="600">
+
+
 ## Game modes
 - High score mode 
     * Single mode where the user plays alone and the goal is to reach the highest points
     * Each food is worth 10 points
     * Stationary speed across this mode
     * Avoid clashing to itself as the game will end
+    * Screenshot of the lost game would be recorded under src -> assets -> screenshots
 - Story mode with levels
     * Each level has unique goals like number of food items to consume
     * The higher the level, the higher the difficulty (not yet developed)
