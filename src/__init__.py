@@ -43,7 +43,6 @@ SCREENSHOTS_PATH = os.path.join(PARDIR_FOLDER, "assets", "screenshots")
 
 LOGGER = logging.getLogger("PySnakey")
 logging.basicConfig(level=logging.DEBUG)
-SCREENSHOT_TIMER_EVENT = pygame.USEREVENT + 1
 pygame.display.set_caption("Snake Game")
 
 TITLE_FONTS = Font(None, 48)
