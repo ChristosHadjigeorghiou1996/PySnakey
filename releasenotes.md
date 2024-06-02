@@ -13,6 +13,7 @@ The game is built using Pygame and is designed to be easy to play and visually a
 
 #### Basic gameplay
 - **[Issue #1](https://github.com/ChristosHadjigeorghiou1996/PySnakey/issues/1)** - Implement classes and interaction</li>
+- **[Issue #3](https://github.com/ChristosHadjigeorghiou1996/PySnakey/issues/3)** - Losing screen to click to go back to main menu</li>
 - **[Issue #4](https://github.com/ChristosHadjigeorghiou1996/PySnakey/issues/4)** - Implement high score mode</li>
 - **[Issue #10](https://github.com/ChristosHadjigeorghiou1996/PySnakey/issues/10)** - Implement screen shot when losing stored under src/assets/screenshots with date and time of the moment the person lost the game</li>
 
