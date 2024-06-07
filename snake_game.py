@@ -198,11 +198,7 @@ class SnakeGame:
                                         obstacle.position.y_pos * CELL_SIZE,
                                         CELL_SIZE,
                                         CELL_SIZE))
-                if snake.move():
-                    if snake.body[0] == food.position:
-                        snake.grow()
-                        food.respawn()
-                else:
+                if not snake.move():
                     return False
 
                 if food_objective and snake.food_consumed == food_objective:
