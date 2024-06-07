@@ -28,6 +28,9 @@ class Snake:
         self.body.insert(0, new_head)
         if new_head != self.food.position:
             self.body.pop()
+        else:
+            self.grow()
+            self.food.respawn()
         return True
 
     def change_direction(self, direction):
