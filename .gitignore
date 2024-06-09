@@ -3,8 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# python virtual environments
 .venv/
 *venv*
 
 # pytest junitxml
 result.xml
+
+# screenshots
+src/assets/screenshots
