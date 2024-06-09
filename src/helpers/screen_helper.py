@@ -2,7 +2,7 @@ from typing import Tuple
 import datetime
 import os
 
-from pygame import display, image, Surface, error
+from pygame import image, Surface, error
 from pygame.font import Font
 
 from src import LOGGER, HEIGHT, SCREENSHOTS_PATH, SCREEN, STATUS_BAR_HEIGHT, WHITE, WIDTH

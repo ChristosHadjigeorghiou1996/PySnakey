@@ -1,6 +1,8 @@
+import os 
 import pygame
 
-from src import BLACK, CELL_SIZE, GRID_HEIGHT, GRID_WIDTH, HEIGHT, LOGGER, SCREEN, TEXT_FONTS, TITLE_FONTS, WHITE, WIDTH
+from src import BLACK, CELL_SIZE, GRID_HEIGHT, GRID_WIDTH, HEIGHT, HIGH_SCORES_PATH, LOGGER, \
+    SCREEN, TEXT_FONTS, TITLE_FONTS, WHITE, WIDTH
 from src.classes.map_position import MapPosition
 from src.classes.levels import Levels
 from src.helpers.main_menu import MainMenu
@@ -12,8 +14,11 @@ from src.helpers.high_score_helper import HighScoreHelper
 class SnakeGame:
     def __init__(self, screen: pygame.Surface) -> None:
         self.screen = screen
-        self.main_menu = MainMenu(self.screen)
-        self.celebration_group = pygame.sprite.Group()
+        # assert there is a high score folder
+        os.makedirs(HIGH_SCORES_PATH, exist_ok=True)
+        self.high_scores_file_path = os.path.join(HIGH_SCORES_PATH, "high_scores.json")
+        self.high_score_helper = HighScoreHelper(self.high_scores_file_path)
+        self.main_menu = MainMenu(self.screen, self.high_score_helper)
         self.levels = Levels().get_levels()
         self.clock = pygame.time.Clock()
         self.reset_game()
@@ -23,8 +28,7 @@ class SnakeGame:
         Reset the game and enable to start again from main menu
         """
         self.current_level = 0
-        self.high_score_helper = HighScoreHelper()
-        self.snake, self.food, self.score = self.high_score_helper\
+        self.snake, self.food = self.high_score_helper\
             .initialize_snake_food_positions_and_score()
         self.current_level = 0
         self.start = True
@@ -74,7 +78,15 @@ class SnakeGame:
         Finish the game by toggling done flag and wait for input
         """
         self.is_done = True
-
+        text = ""
+        if self.main_menu.menu_state == MenuStateEnum.HIGH_SCORE_MODE:
+            high_score = self.snake.food_consumed * 10
+            self.high_score_helper.add_high_score(high_score)
+            text = f"Saved {high_score} to {os.path.relpath(self.high_scores_file_path)}"
+            ScreenHelper.display_text_on_screen(self.screen,
+                                                TEXT_FONTS,
+                                                text,
+                                                map_position=MapPosition(WIDTH // 2, HEIGHT // 2 + 3 * 50 ))
         # iterate through options and show them on screen
         for index, text in enumerate(["Mouse click to go to main menu", "Click q to exit"]):
             ScreenHelper.display_text_on_screen(self.screen,
@@ -232,11 +244,14 @@ def main():
         SCREEN.fill(BLACK)
         # Handle events based on the current menu state
         if snake_game.main_menu.menu_state == MenuStateEnum.MAIN_MENU or \
-                snake_game.main_menu.menu_state == MenuStateEnum.KEY_BINDINGS:
+                snake_game.main_menu.menu_state == MenuStateEnum.KEY_BINDINGS or \
+                snake_game.main_menu.menu_state == MenuStateEnum.VIEW_HIGH_SCORES:
             running = snake_game.main_menu.handle_events()
             # Check if the game should start
             if snake_game.main_menu.menu_state == MenuStateEnum.KEY_BINDINGS:
                 snake_game.main_menu.view_key_bindings()
+            elif snake_game.main_menu.menu_state == MenuStateEnum.VIEW_HIGH_SCORES:
+                snake_game.main_menu.display_high_scores()
             elif snake_game.main_menu.menu_state == MenuStateEnum.MAIN_MENU:
                 snake_game.main_menu.display_menu()
         else:

@@ -27,9 +27,6 @@ KEY_BINDINGS = {
     "Quit": pygame.K_q
 }
 
-# Menu Options
-MENU_OPTIONS = ["High Score Mode", "Story Mode", "View Key Bindings", "Exit"]
-
 # Fonts
 TITLE_FONT_SIZE = 48
 TEXT_FONT_SIZE = 36
@@ -40,6 +37,7 @@ pygame.init()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 PARDIR_FOLDER = os.path.dirname(__file__)
 SCREENSHOTS_PATH = os.path.join(PARDIR_FOLDER, "assets", "screenshots")
+HIGH_SCORES_PATH = os.path.join(PARDIR_FOLDER, "assets", "high_scores")
 
 LOGGER = logging.getLogger("PySnakey")
 logging.basicConfig(level=logging.DEBUG)
