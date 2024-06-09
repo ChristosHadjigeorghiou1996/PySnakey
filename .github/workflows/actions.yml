@@ -28,8 +28,7 @@ jobs:
     - name: Run tests with pytest
       run: |
         python -m pytest --junitxml=result.xml
-        continue-on-error: true
- 
+
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v3
