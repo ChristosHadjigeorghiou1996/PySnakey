@@ -1,12 +1,8 @@
 name: Github actions
 
 on:
-    push:
-      branches:
-        - main
-    pull_request:
-      branches:
-        - main
+  push:
+    branches: '**'
 
 jobs:
   build:
