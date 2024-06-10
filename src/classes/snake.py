@@ -1,8 +1,10 @@
 from pygame.draw import rect
+from typing import List
 
 from src import CELL_SIZE, GRID_HEIGHT,  GRID_WIDTH, SCREEN, WHITE
-from src.classes.map_position import MapPosition
 from src.classes.food import Food
+from src.classes.map_position import MapPosition
+from src.classes.obstacle import Obstacle
 
 class Snake:
     def __init__(self, position: MapPosition, food: Food):
@@ -11,7 +13,7 @@ class Snake:
         self.food = food
         self.food_consumed = 0
 
-    def move(self) -> bool:
+    def move(self, obstacles: List[Obstacle] = None) -> bool:
         """
         Check the new position of the snake
         :return boolean if game continues
@@ -23,7 +25,7 @@ class Snake:
         dx, dy = self.direction
         new_head = MapPosition((x + dx) % GRID_WIDTH, (y + dy) % GRID_HEIGHT)
         # snake eats itself
-        if new_head in self.body[1:]:
+        if new_head in self.body[1:] or (obstacles and new_head in [obstacle.get_position() for obstacle in obstacles]):
             return False
         self.body.insert(0, new_head)
         if new_head != self.food.position:

@@ -2,7 +2,7 @@ import os
 import pygame
 
 from src import BLACK, CELL_SIZE, GRID_HEIGHT, GRID_WIDTH, HEIGHT, HIGH_SCORES_PATH, LOGGER, \
-    SCREEN, TEXT_FONTS, TITLE_FONTS, WHITE, WIDTH
+    OBSTACLE_COLOR, SCREEN, TEXT_FONTS, TITLE_FONTS, WIDTH
 from src.classes.map_position import MapPosition
 from src.classes.levels import Levels
 from src.helpers.main_menu import MainMenu
@@ -205,12 +205,13 @@ class SnakeGame:
                 food.draw()
                 if obstacles:
                     for obstacle in obstacles:
-                        pygame.draw.rect(self.screen, WHITE,  
+                        pygame.draw.rect(self.screen,
+                                         OBSTACLE_COLOR,  
                                         (obstacle.position.x_pos * CELL_SIZE,
                                         obstacle.position.y_pos * CELL_SIZE,
                                         CELL_SIZE,
                                         CELL_SIZE))
-                if not snake.move():
+                if not snake.move(obstacles):
                     return False
 
                 if food_objective and snake.food_consumed == food_objective:

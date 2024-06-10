@@ -36,7 +36,7 @@ class HighScoreHelper:
 
     def initialize_snake_food_positions_and_score(self) -> Tuple[Snake, Food]:
         food_position = MapPosition(random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1))
-        food = Food(food_position, (GRID_WIDTH, GRID_HEIGHT))
+        food = Food(food_position, (0, 0, GRID_WIDTH, GRID_HEIGHT))
         snake_position = MapPosition(random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1))
         snake = Snake(snake_position, food)
         return snake, food
