@@ -12,3 +12,6 @@ result.xml
 
 # screenshots
 src/assets/screenshots
+
+# high score json
+src/assets/high_scores/high_scores.json

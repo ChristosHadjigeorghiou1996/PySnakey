@@ -23,8 +23,14 @@ Traditional snake game written in pygame with Python 3.11.9
         <img src="src/assets/images/high_score_mode.png" alt="High score mode display" width="600">
     
     - Story mode
+        - Level 1 - No constraints, objective: 5 food
         
         <img src="src/assets/images/first level with bottom row info being unreachable.png" alt="First level with unreachable info row screenshot" width="600">
+
+        - Level 2 - Blocked Borders, objective: 10 food
+
+        <img src="src/assets/images/second_level_borders.png" alt="Second level with blocked borders" width="600">
+
 
 - Screenshots when losing the game to see what happened and what to changed.
     - Stored under parent directory of the script running, under src -> assets -> screenshots -> date_and_time.png
